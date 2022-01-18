@@ -4,6 +4,9 @@ const settings = nodeRequire('electron-settings');
 const Trace = nodeRequire('atm-trace');
 const ATM = nodeRequire('./src/controllers/atm.js');
 const StatesHistory = nodeRequire('./src/services/history.js');
+const path = nodeRequire('path')
+
+settings.setPath(path.join(__dirname, 'settings', 'Settings'));
 
 //let log = new Log();
 let trace = new Trace();

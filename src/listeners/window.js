@@ -9,6 +9,8 @@ $(function () {
   const mousetrap = nodeRequire('mousetrap');
   const path = nodeRequire('path')
 
+  settings.setPath(path.join(__dirname, 'settings', 'Settings'));
+
   image_path = settings.get('image_path');
   if(image_path)
     image_path = image_path[0];
