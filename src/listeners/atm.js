@@ -28,6 +28,7 @@ ipc.on('atm-read-card', (event, cardnumber, track2) => {
 
 ipc.on('atm-network-connection-established', (event) => {
   atm.setStatus('Connected');
+  ipc.send('atm-connected');
 })
 
 ipc.on('atm-network-disconnected', (event) => {

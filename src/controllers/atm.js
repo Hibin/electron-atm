@@ -203,6 +203,10 @@ class ATM {
    */
   processCustomizationCommand(data){
     switch(data.message_identifier){
+    case 'Date Time set': // no processing
+    case 'Enhanced Configuration Parameters': // no processing
+    case 'Configuration Parameters': // no processing
+      return this.replySolicitedStatus('Ready');
     case 'Screen Data load':
       if(this.screens.add(data.screens))
         return this.replySolicitedStatus('Ready'); 
@@ -588,8 +592,22 @@ class ATM {
   processStateK(state){
     let institution_id = this.FITs.getInstitutionByCardnumber(this.card.number);
     this.log.info('Card ' + this.card.number + ' matches with institution_id ' + institution_id);
-    if(institution_id)
-      return state.get('state_exits')[parseInt(institution_id, 10)];
+    console.log({state});
+    if(institution_id) {
+      try {
+        // const stateExits = state.get('state_exits');
+        const stateExits = state.get('states_to');
+        console.log({stateExits});
+
+        if (!stateExits)
+          throw new Error(`State not exists: state_exits`);
+
+        return stateExits[parseInt(institution_id, 10)];
+      } catch (err) {
+        console.error({err, institution_id});
+        this.log.error('Unable to get State Exits');
+      }
+    }
     else
       this.log.error('Unable to get Financial Institution by card number');
   }
