@@ -9,7 +9,10 @@
   <script src="node_modules/vis/dist/vis.js"></script>
 
   <script>
-    require('babel-register')
+    // require('babel-register')
+    require('babel-register')({
+      presets: [ 'es2015' ]
+    });
   </script>
 
   <script>
@@ -304,8 +307,9 @@
       </div>
 
       <!-- SCREENS -->
-      <div class="row" id="screens-page" hidden="true"> 
-        <div>Screens</div>
+      <div id="screens-page" hidden="true">
+        <div class="list-group" id="screens-page-screens-list">
+        </div>
       </div>
 
       <!-- FITs -->
@@ -653,6 +657,7 @@ Number) on card">PANDX</th>
     <script src="./src/listeners/parser.js" charset="utf-8"></script>
     <script src="./src/listeners/atm.js" charset="utf-8"></script>
     <script src="./src/listeners/builder.js" charset="utf-8"></script>
+    <script src="./src/listeners/screens.js" charset="utf-8"></script>
     <script src="./src/listeners/fits.js" charset="utf-8"></script>
     <script src="./src/listeners/cards.js" charset="utf-8"></script>
     <script src="./src/listeners/settings.js" charset="utf-8"></script>
