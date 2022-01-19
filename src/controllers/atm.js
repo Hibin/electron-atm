@@ -592,19 +592,17 @@ class ATM {
   processStateK(state){
     let institution_id = this.FITs.getInstitutionByCardnumber(this.card.number);
     this.log.info('Card ' + this.card.number + ' matches with institution_id ' + institution_id);
-    console.log({state});
+
     if(institution_id) {
       try {
         // const stateExits = state.get('state_exits');
-        const stateExits = state.get('states_to');
-        console.log({stateExits});
+        const stateExits = Array.from( state.get('states_to') );
 
         if (!stateExits)
           throw new Error(`State not exists: state_exits`);
 
         return stateExits[parseInt(institution_id, 10)];
       } catch (err) {
-        console.error({err, institution_id});
         this.log.error('Unable to get State Exits');
       }
     }
