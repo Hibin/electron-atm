@@ -38,11 +38,12 @@ $(function(){
 
   // Image path
   function setImagePath(){
-    var selected_image_path = dialog.showOpenDialog({
+    var selected_image_path = dialog.showOpenDialogSync({
         properties: ['openDirectory']
     });
 
     if(selected_image_path){
+      console.log({selected_image_path, zero: selected_image_path[0]});
       $('#images-path').val(selected_image_path[0]);
       $('#images-path').val(selected_image_path);
       settings.set('image_path', selected_image_path);
