@@ -89,8 +89,8 @@ class Builder{
     let message = '';
     if(object.message_subclass === 'Transaction Request'){
       message += '1\x1C' +  this.luno + '\x1C\x1C';
-      object.time_variant_number ? message += object.time_variant_number : message += '';
-      message += '\x1C' + object.top_of_receipt + object.message_coordination_number + '\x1C';
+      object.time_variant_number ? message += object.time_variant_number + '\x1C' : message += '';
+      message += object.top_of_receipt + object.message_coordination_number + '\x1C';
 
       ['track2', 'track3', 'opcode_buffer', 'amount_buffer', 'PIN_buffer', 'buffer_B', 'buffer_C', 'track1'].forEach( i => {
         object[i] ? message += object[i] : message += '';
@@ -125,6 +125,7 @@ class Builder{
     default:
       break;
     }
+
     return message;
   }
 }
