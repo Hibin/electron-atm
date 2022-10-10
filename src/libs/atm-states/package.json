@@ -1,0 +1,74 @@
+{
+  "_from": "atm-states@^0.7.0",
+  "_id": "atm-states@0.7.0",
+  "_inBundle": false,
+  "_integrity": "sha512-viO3mIbkkKzuBc+ebZrOPC5N8htvSkqB94f57C9XhTsAoHHZ1qhQMCL/XHU00QRBy1Ga0qZq475pbMgHUJP4Lg==",
+  "_location": "/atm-states",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "atm-states@^0.7.0",
+    "name": "atm-states",
+    "escapedName": "atm-states",
+    "rawSpec": "^0.7.0",
+    "saveSpec": null,
+    "fetchSpec": "^0.7.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/atm-states/-/atm-states-0.7.0.tgz",
+  "_shasum": "bbd966341e0a4888acb9145cd8929619743ed1ed",
+  "_spec": "atm-states@^0.7.0",
+  "_where": "/Users/user/Downloads/dev/ips/atm/electron-atm",
+  "author": {
+    "name": "Tim Gabets",
+    "email": "tim@gabets.ru",
+    "url": "http://gabets.ru/"
+  },
+  "ava": {
+    "files": [
+      "tests/*.js"
+    ],
+    "source": [
+      "lib/**/*.{js}"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "powerAssert": false
+  },
+  "bugs": {
+    "url": "https://github.com/timgabets/atm-states/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "atm-state-levels": "^1.0.6",
+    "semver": "^5.4.1"
+  },
+  "deprecated": false,
+  "description": "ATM States Service",
+  "devDependencies": {
+    "ava": "^0.23.0",
+    "eslint": "^4.12.0",
+    "eslint-plugin-import": "^2.8.0",
+    "nyc": "^11.3.0"
+  },
+  "homepage": "https://github.com/timgabets/atm-states#readme",
+  "keywords": [
+    "ATM",
+    "States"
+  ],
+  "license": "LGPL-2.1",
+  "main": "lib/states.js",
+  "name": "atm-states",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timgabets/atm-states.git"
+  },
+  "scripts": {
+    "test": "eslint tests/** lib** && nyc --reporter=html --reporter=lcov ava"
+  },
+  "version": "0.7.3"
+}
