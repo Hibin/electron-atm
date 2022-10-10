@@ -1,4 +1,4 @@
-const StatesService = require('atm-states');
+const StatesService = require('../libs/atm-states/lib/states');
 const ScreensService = require('atm-screens');
 const FITsService = require('atm-fits');
 const CryptoService = require('../services/crypto.js');
@@ -215,7 +215,7 @@ class ATM {
 
     case 'State Tables load':
       if(this.states.add(data.states))
-        return this.replySolicitedStatus('Ready'); 
+        return this.replySolicitedStatus('Ready');
       else
         return this.replySolicitedStatus('Command Reject');
 
@@ -233,6 +233,11 @@ class ATM {
         this.log.info('ATM.processDataCommand(): no Config ID provided');
         return this.replySolicitedStatus('Command Reject');
       }
+
+    case 'Dispenser Currency Cassette Mapping Table':
+      // TODO: do some processing of the table
+      this.log.info('Dispenser Currency Cassette Mapping Table received');
+      return this.replySolicitedStatus('Ready');
 
     default:
       this.log.error('ATM.processDataCommand(): unknown message identifier: ', data.message_identifier);
@@ -294,12 +299,20 @@ class ATM {
     }
   }
 
+
+  processElectronicJournal(data){
+    // TODO
+    this.log.warn('TODO: process Electronic Journal commands' + data.message_class);
+    return this.replySolicitedStatus('Ready');
+  }
+
+
   /**
    * [processTransactionReply description]
    * @param  {[type]} data [description]
    * @return {[type]}      [description]
    */
-  processTransactionReply(data){    
+  processTransactionReply(data){
     this.processState(data.next_state);
 
     if(data.screen_display_update)
@@ -945,6 +958,7 @@ class ATM {
    * @return {[type]}      [description]
    */
   processHostMessage(data){
+    console.log({data});
     switch(data.message_class){
     case 'Terminal Command':
       return this.processTerminalCommand(data);
@@ -957,6 +971,9 @@ class ATM {
             
     case 'EMV Configuration':
       return this.replySolicitedStatus('Ready');
+
+    case 'Electronic Journal':
+      return this.processElectronicJournal(data);
 
     default:
       this.log.info('ATM.processHostMessage(): unknown message class: ' + data.message_class);

@@ -65,6 +65,7 @@
                 <input type="text" class="form-control buffer-12 letter-spacing" id="C-buffer" value="" title="Buffer C" placeholder="Buffer C" disabled></input>
                 <input type="text" class="form-control buffer-8 letter-spacing" id="opcode-buffer" value="" title="Operation Code Buffer" placeholder="Opcode" disabled></input>
                 <input type="text" class="form-control buffer-12 letter-spacing" id="amount-buffer" value="" title="Amount Buffer" placeholder="Amount Buffer" disabled></input>
+                <input type="text" class="form-control buffer-6 letter-spacing" id="fdk-buffer" value="" title="FDK Buffer" placeholder="FDK" disabled></input>
               </div>
             </form>
 
@@ -282,6 +283,11 @@
 
         <div class="col-md-5">
           <pre id="log-output" class="log-output" type="text"></pre>
+          <button
+                  id="clear-log-output"
+                  onclick="$('#log-output').empty();"
+                  class="btn btn-default"
+          >Clear Log Output</button>
         </div>
       </div>
 
