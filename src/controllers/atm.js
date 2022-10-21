@@ -709,27 +709,49 @@ class ATM {
 
   /**
    * [processStateY description]
-   * @param  {[type]} state [description]
-   * @return {[type]}       [description]
+   * @param  {[type]} state           [description]
+   * @param  {[type]} extension_state [description]
+   * @return {[type]}                 [description]
    */
   processStateY(state, extension_state){
     this.display.setScreenByNumber(state.get('screen_number'));
     this.setFDKsActiveMask(state.get('FDK_active_mask'));
 
-    if(extension_state){
-      this.log.error('Extension state on state Y is not yet supported');
-    }else{
-      let button = this.buttons_pressed.shift();
-      if(this.isFDKButtonActive(button)){
-        this.FDK_buffer = button;
+    let button = this.buttons_pressed.shift();
 
-        // If there is no extension state, state.get('buffer_positions') defines the Operation Code buffer position 
-        // to be edited by a value in the range 000 to 007.
-        this.opcode.setBufferValueAt(parseInt(state.get('buffer_positions'), 10), button);
-       
-        return state.get('FDK_next_state');
-      }
+    if(!(this.isFDKButtonActive(button))) return;
+
+    this.FDK_buffer = button;
+
+    if(extension_state){
+      // three buffer positions to set
+      const bufferPositions = state.get('buffer_positions').split('');
+
+      const positions = {
+        A: 2,
+        B: 3,
+        C: 4,
+        D: 5,
+        F: 6,
+        G: 7,
+        H: 8,
+        I: 9,
+      };
+
+      const bufferValues = extension_state.get('entries')[positions[button]].split('');
+
+      bufferValues.map((value, i) => {
+        if (value !== '@') {
+          this.opcode.setBufferValueAt(parseInt(bufferPositions[i], 10), value);
+        }
+      });
+    } else {
+      // If there is no extension state, state.get('buffer_positions') defines the Operation Code buffer position
+      // to be edited by a value in the range 000 to 007.
+      this.opcode.setBufferValueAt(parseInt(state.get('buffer_positions'), 10), button);
     }
+
+    return state.get('FDK_next_state');
   }
 
   /**
