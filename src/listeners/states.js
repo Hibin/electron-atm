@@ -1,5 +1,5 @@
 const StatesService = nodeRequire('./src/libs/atm-states/lib/states.js');
-const ScreensService = nodeRequire('atm-screens');
+const ScreensService = nodeRequire('./src/libs/atm-screens/screens.js');
 const settings = nodeRequire('electron-settings');
 const Trace = nodeRequire('atm-trace');
 const ATM = nodeRequire('./src/controllers/atm.js');
