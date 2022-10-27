@@ -1,3 +1,4 @@
+/* eslint-disable */
 function OperationCodeBufferService(log){
   this.buffer = '        ';
 
@@ -93,7 +94,7 @@ function OperationCodeBufferService(log){
      'C_preset_mask',
      'D_preset_mask'
      ].forEach( (element, i) => {
-        mask = state[element];
+        mask = state.get(element);
         for(var bit = 0; bit < 8; bit++){
           if((mask & Math.pow(2, bit)).toString() === Math.pow(2, bit).toString())
             if(!this.setBufferValueAt(bit, keys[i]))
