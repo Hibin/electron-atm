@@ -70,5 +70,5 @@
   "scripts": {
     "test": "eslint tests/** lib** && nyc --reporter=html --reporter=lcov ava"
   },
-  "version": "0.7.3"
+  "version": "0.7.4"
 }

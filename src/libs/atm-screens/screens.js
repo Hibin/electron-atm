@@ -276,12 +276,12 @@ function ScreensService(settings, log, trace){
      * Var            Screen data
      */
       data.split('\x1d').forEach((element) => {
-        if(element[0] === 'u' || element[1] === 'l'){
+        if(element[0] === 'u' || element[0] === 'l'){
           if(log)
             log.error('Error processing screen ' + element.substr(0, 6) + ': ' + element[0] + '-type screen processing is not supported');
           return false;
         } else {  
-          return this.addScreen(element.substr(4));
+          return this.addScreen(element);
         }
       });
     return true;

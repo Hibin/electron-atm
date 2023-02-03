@@ -421,13 +421,37 @@ class ATM {
    * @return {[type]}       [description]
    */
   processAmountEntryState(state){
+    // If an FDK button pressed during this state, then process it.
+    let button = this.buttons_pressed.shift();
+    if(button && this.isFDKButtonActive(button))
+      return state.get('FDK_' + button + '_next_state');
+
+    // Reset amount buffer only if no FDK button pressed
     this.display.setScreenByNumber(state.get('screen_number'));
-    this.setFDKsActiveMask('015'); // Enabling 'A', 'B', 'C', 'D' buttons
     this.amount_buffer = '000000000000';
 
-    let button = this.buttons_pressed.shift();
-    if(this.isFDKButtonActive(button))
-      return state.get('FDK_' + button + '_next_state');
+    this.activeFDKs = [];
+    ['A', 'B', 'C', 'D'].forEach((element, index) => {
+      if(state.get('FDK_' + element + '_next_state') !== '255')
+        this.activeFDKs.push(element);
+    });
+  }
+
+  /**
+   * [processAmountCheckState description]
+   * @param  {[type]} state           [description]
+   * @return {[type]}                 [description]
+   */
+  processAmountCheckState(state){
+    // TODO: implement conditions check
+
+    try {
+      return parseInt(this.amount_buffer, 10)
+        ? state.get('amount_check_condition_true')
+        : state.get('amount_check_condition_false');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /**
@@ -835,6 +859,10 @@ class ATM {
         next_state = this.processAmountEntryState(state);
         break;
 
+      case 'G':
+        next_state = this.processAmountCheckState(state);
+        break;
+
       case 'H':
         next_state = this.processInformationEntryState(state);
         break;
@@ -980,7 +1008,6 @@ class ATM {
    * @return {[type]}      [description]
    */
   processHostMessage(data){
-    console.log({data});
     switch(data.message_class){
     case 'Terminal Command':
       return this.processTerminalCommand(data);
@@ -992,7 +1019,7 @@ class ATM {
       return this.processTransactionReply(data);
             
     case 'EMV Configuration':
-      return this.replySolicitedStatus('Ready');
+      return this.processEMVConfiguration(data);
 
     case 'Electronic Journal':
       return this.processElectronicJournal(data);
@@ -1194,6 +1221,11 @@ class ATM {
 
   getCurrentState(){
     return this.current_state;
+  }
+
+  processEMVConfiguration(data) {
+    console.log({'EMV Configuration data': data});
+    return this.replySolicitedStatus('Ready');
   }
 }
 
